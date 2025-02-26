@@ -1,0 +1,26 @@
+name: Auto Merge
+
+on:
+  push:
+    branches:
+      - main  # Немесе өзіңіздің негізгі тармағыңыздың атауын жазыңыз
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Auto-merge pull requests
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "github-action@users.noreply.github.com"
+          git pull origin main
+          git merge --no-ff
+          git push origin main
